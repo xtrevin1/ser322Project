@@ -35,8 +35,8 @@ Music storage and playback
     - **Attributes:** ALBUM
     - A music producer may only be with one RECORD_LABEL.
     - A music producer may have contributed to zero or more ALBUMs.
-  - **CONSUMER:**
-    - **Primary Key:** (ID, Name)
+  - **GENRE:**
+    - **Primary Key:** (Name)
   - **RECORD_LABEL:**
     - **Primary Key:** (ID, Name, Address)
     - **Attributes:** ALBUMs, MUSIC_ARTISTs
