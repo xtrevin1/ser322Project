@@ -64,6 +64,7 @@ public class Main {
 			System.out.println("\t7: RECORD_LABEL");
 			System.out.println("\t8: SONG");
 			System.out.println("\t9: WORKS_FOR");
+			System.out.println("\ta: print all");
 			System.out.println("\te: exit selection");
 			
 			choice = scanner.next().toLowerCase().charAt(0);
@@ -96,6 +97,9 @@ public class Main {
 					break;
 				case '9':
 					db.printWorksForTable();
+					break;
+				case 'a':
+					db.printAll();
 					break;
 				case 'e':
 					break;

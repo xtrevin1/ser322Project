@@ -2,7 +2,7 @@ import java.sql.*;
 
 public class DatabaseConnect {
 	
-	/**User entered arguments*/
+	/**user entered arguments*/
 	private String url;
 	private String user;
 	private String password;
@@ -457,12 +457,25 @@ public class DatabaseConnect {
 		}
 	}
 	
-	
-	
-	
-	
-	
-	
+	public void printAll() {
+		printAlbumTable();
+		System.out.println("\n");
+		printArtistTable();
+		System.out.println("\n");
+		printCreatedTable();
+		System.out.println("\n");
+		printGenreTable();
+		System.out.println("\n");
+		printMadeTable();
+		System.out.println("\n");
+		printProducerTable();
+		System.out.println("\n");
+		printRecordLabelTable();
+		System.out.println("\n");
+		printSongTable();
+		System.out.println("\n");
+		printWorksForTable();
+	}
 	
 	public void printSpaces(int count) {
 		String spaces = "";
