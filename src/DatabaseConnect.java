@@ -23,14 +23,54 @@ public class DatabaseConnect {
 
 		System.out.println("Connecting to database through url: " + url + "\n");
 		
+		connection = establishConnection(url, user, password, driver);
+	}
+	
+	//opens a connection with db when class is initialized 
+	public Connection establishConnection(String url, String user, String password, String driver) {
+	    try {
+    	    Class.forName(driver);
+    	    
+    	    connection = DriverManager.getConnection(url, user, password);
+	    } catch (ClassNotFoundException e) {
+            System.out.println("Error: JDBC driver class '" + driver + "' not found.");
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException sqle) {
+                    System.out.println("Error closing database resources: " + sqle.getMessage());
+                }
+                System.exit(-1);
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL Error: " + e.getMessage());
+            System.exit(-1);
+        }
+	    
+	    return connection;
+	}
+	
+	//closes down resources when app is exited
+	public void closeResources() {
+	    System.out.println("Closing resources...");
+	    try {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error closing database resources: " + e.getMessage());
+            System.exit(-1);
+        }
 	}
 	
 	public void printAlbumTable() {
 		try {
-			Class.forName(driver);
-			
-			connection = DriverManager.getConnection(url, user, password);
-			
 			statement = connection.createStatement();
 			
 			resultSet = statement.executeQuery(
@@ -53,35 +93,13 @@ public class DatabaseConnect {
 				System.out.println(resultSet.getInt(4));
 			}
 			System.out.println();
-			
-		} catch (ClassNotFoundException e) {
-	        System.out.println("Error: JDBC driver class '" + driver + "' not found.");
-	        e.printStackTrace();
 		} catch (SQLException e) {
 	        System.out.println("SQL Error: " + e.getMessage());
-		} finally {
-			try {
-	            if (resultSet != null) {
-	            		resultSet.close();
-	            }
-	            if (statement != null) {
-	            	statement.close();
-	            }
-	            if (connection != null) {
-	            	connection.close();
-	            }
-	        } catch (SQLException e) {
-	            System.out.println("Error closing database resources: " + e.getMessage());
-	        }
-		}	
+		}
 	}
 	
 	public void printArtistTable() {
 		try {
-			Class.forName(driver);
-			
-			connection = DriverManager.getConnection(url, user, password);
-			
 			statement = connection.createStatement();
 			
 			resultSet = statement.executeQuery(
@@ -102,35 +120,14 @@ public class DatabaseConnect {
 			}
 			System.out.println();
 			
-		} catch (ClassNotFoundException e) {
-	        System.out.println("Error: JDBC driver class '" + driver + "' not found.");
-	        e.printStackTrace();
 		} catch (SQLException e) {
 	        System.out.println("SQL Error: " + e.getMessage());
-		} finally {
-			try {
-	            if (resultSet != null) {
-	            		resultSet.close();
-	            }
-	            if (statement != null) {
-	            	statement.close();
-	            }
-	            if (connection != null) {
-	            	connection.close();
-	            }
-	        } catch (SQLException e) {
-	            System.out.println("Error closing database resources: " + e.getMessage());
-	        }
-		}
+		} 
 	}
 	
 	public void printCreatedTable() {
 		try {
-			Class.forName(driver);
-			
-			connection = DriverManager.getConnection(url, user, password);
-			
-			statement = connection.createStatement();
+		    statement = connection.createStatement();
 			
 			resultSet = statement.executeQuery(
 					"SELECT * FROM CREATED");
@@ -146,35 +143,13 @@ public class DatabaseConnect {
 				System.out.println(resultSet.getInt(2));
 			}
 			System.out.println();
-			
-		} catch (ClassNotFoundException e) {
-	        System.out.println("Error: JDBC driver class '" + driver + "' not found.");
-	        e.printStackTrace();
 		} catch (SQLException e) {
 	        System.out.println("SQL Error: " + e.getMessage());
-		} finally {
-			try {
-	            if (resultSet != null) {
-	            		resultSet.close();
-	            }
-	            if (statement != null) {
-	            	statement.close();
-	            }
-	            if (connection != null) {
-	            	connection.close();
-	            }
-	        } catch (SQLException e) {
-	            System.out.println("Error closing database resources: " + e.getMessage());
-	        }
-		}	
+		} 	
 	}
 	
 	public void printGenreTable() {
 		try {
-			Class.forName(driver);
-			
-			connection = DriverManager.getConnection(url, user, password);
-			
 			statement = connection.createStatement();
 			
 			resultSet = statement.executeQuery(
@@ -191,35 +166,13 @@ public class DatabaseConnect {
 				System.out.println(resultSet.getString(2));
 			}
 			System.out.println();
-			
-		} catch (ClassNotFoundException e) {
-	        System.out.println("Error: JDBC driver class '" + driver + "' not found.");
-	        e.printStackTrace();
 		} catch (SQLException e) {
 	        System.out.println("SQL Error: " + e.getMessage());
-		} finally {
-			try {
-	            if (resultSet != null) {
-	            		resultSet.close();
-	            }
-	            if (statement != null) {
-	            	statement.close();
-	            }
-	            if (connection != null) {
-	            	connection.close();
-	            }
-	        } catch (SQLException e) {
-	            System.out.println("Error closing database resources: " + e.getMessage());
-	        }
-		}
+		} 
 	}
 
 	public void printMadeTable() {
 		try {
-			Class.forName(driver);
-			
-			connection = DriverManager.getConnection(url, user, password);
-			
 			statement = connection.createStatement();
 			
 			resultSet = statement.executeQuery(
@@ -236,35 +189,13 @@ public class DatabaseConnect {
 				System.out.println(resultSet.getInt(2));
 			}
 			System.out.println();
-			
-		} catch (ClassNotFoundException e) {
-	        System.out.println("Error: JDBC driver class '" + driver + "' not found.");
-	        e.printStackTrace();
 		} catch (SQLException e) {
 	        System.out.println("SQL Error: " + e.getMessage());
-		} finally {
-			try {
-	            if (resultSet != null) {
-	            		resultSet.close();
-	            }
-	            if (statement != null) {
-	            	statement.close();
-	            }
-	            if (connection != null) {
-	            	connection.close();
-	            }
-	        } catch (SQLException e) {
-	            System.out.println("Error closing database resources: " + e.getMessage());
-	        }
-		}	
+		}
 	}
 	
 	public void printProducerTable() {
 		try {
-			Class.forName(driver);
-			
-			connection = DriverManager.getConnection(url, user, password);
-			
 			statement = connection.createStatement();
 			
 			resultSet = statement.executeQuery(
@@ -281,35 +212,13 @@ public class DatabaseConnect {
 				System.out.println(resultSet.getString(2));
 			}
 			System.out.println();
-			
-		} catch (ClassNotFoundException e) {
-	        System.out.println("Error: JDBC driver class '" + driver + "' not found.");
-	        e.printStackTrace();
 		} catch (SQLException e) {
 	        System.out.println("SQL Error: " + e.getMessage());
-		} finally {
-			try {
-	            if (resultSet != null) {
-	            		resultSet.close();
-	            }
-	            if (statement != null) {
-	            	statement.close();
-	            }
-	            if (connection != null) {
-	            	connection.close();
-	            }
-	        } catch (SQLException e) {
-	            System.out.println("Error closing database resources: " + e.getMessage());
-	        }
 		}
 	}
 
 	public void printRecordLabelTable() {
 		try {
-			Class.forName(driver);
-			
-			connection = DriverManager.getConnection(url, user, password);
-			
 			statement = connection.createStatement();
 			
 			resultSet = statement.executeQuery(
@@ -332,35 +241,13 @@ public class DatabaseConnect {
 				System.out.println(resultSet.getString(4));
 			}
 			System.out.println();
-			
-		} catch (ClassNotFoundException e) {
-	        System.out.println("Error: JDBC driver class '" + driver + "' not found.");
-	        e.printStackTrace();
 		} catch (SQLException e) {
 	        System.out.println("SQL Error: " + e.getMessage());
-		} finally {
-			try {
-	            if (resultSet != null) {
-	            		resultSet.close();
-	            }
-	            if (statement != null) {
-	            	statement.close();
-	            }
-	            if (connection != null) {
-	            	connection.close();
-	            }
-	        } catch (SQLException e) {
-	            System.out.println("Error closing database resources: " + e.getMessage());
-	        }
 		}
 	}
 	
 	public void printSongTable() {
 		try {
-			Class.forName(driver);
-			
-			connection = DriverManager.getConnection(url, user, password);
-			
 			statement = connection.createStatement();
 			
 			resultSet = statement.executeQuery(
@@ -389,35 +276,13 @@ public class DatabaseConnect {
 				System.out.println(resultSet.getInt(6));
 			}
 			System.out.println();
-			
-		} catch (ClassNotFoundException e) {
-	        System.out.println("Error: JDBC driver class '" + driver + "' not found.");
-	        e.printStackTrace();
 		} catch (SQLException e) {
 	        System.out.println("SQL Error: " + e.getMessage());
-		} finally {
-			try {
-	            if (resultSet != null) {
-	            		resultSet.close();
-	            }
-	            if (statement != null) {
-	            	statement.close();
-	            }
-	            if (connection != null) {
-	            	connection.close();
-	            }
-	        } catch (SQLException e) {
-	            System.out.println("Error closing database resources: " + e.getMessage());
-	        }
 		}
 	}
 	
 	public void printWorksForTable() {
 		try {
-			Class.forName(driver);
-			
-			connection = DriverManager.getConnection(url, user, password);
-			
 			statement = connection.createStatement();
 			
 			resultSet = statement.executeQuery(
@@ -434,26 +299,8 @@ public class DatabaseConnect {
 				System.out.println(resultSet.getInt(2));
 			}
 			System.out.println();
-			
-		} catch (ClassNotFoundException e) {
-	        System.out.println("Error: JDBC driver class '" + driver + "' not found.");
-	        e.printStackTrace();
 		} catch (SQLException e) {
 	        System.out.println("SQL Error: " + e.getMessage());
-		} finally {
-			try {
-	            if (resultSet != null) {
-	            		resultSet.close();
-	            }
-	            if (statement != null) {
-	            	statement.close();
-	            }
-	            if (connection != null) {
-	            	connection.close();
-	            }
-	        } catch (SQLException e) {
-	            System.out.println("Error closing database resources: " + e.getMessage());
-	        }
 		}
 	}
 	

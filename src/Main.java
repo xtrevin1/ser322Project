@@ -42,6 +42,7 @@ public class Main {
 		} while (choice != 'q');
 		
 		scanner.close();
+	    db.closeResources();
 		System.out.println("Exiting application...");
 	}
 	
