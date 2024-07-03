@@ -80,17 +80,22 @@ public class DatabaseConnect {
 			System.out.println("AlbumID |         Name         | LabelID | ProducerID");
 			System.out.println("-----------------------------------------------------");
 			while (resultSet.next()) {
-				printSpaces(7 - String.valueOf(resultSet.getInt(1)).length());
-				System.out.print(resultSet.getInt(1) + " | ");
+				int albumId = resultSet.getInt(1);
+				String name = resultSet.getString(2);
+				int labelId = resultSet.getInt(3);
+				int producerId = resultSet.getInt(4);
 				
-				printSpaces(20 - resultSet.getString(2).length());
-				System.out.print(resultSet.getString(2) + " | ");
+				printSpaces(7 - String.valueOf(albumId).length());
+				System.out.print(albumId + " | ");
 				
-				printSpaces(7 - String.valueOf(resultSet.getInt(3)).length());
-				System.out.print(resultSet.getInt(3) + " | ");
+				printSpaces(20 - name.length());
+				System.out.print(name + " | ");
 				
-				printSpaces(10 - String.valueOf(resultSet.getInt(4)).length());
-				System.out.println(resultSet.getInt(4));
+				printSpaces(7 - String.valueOf(labelId).length());
+				System.out.print(labelId + " | ");
+				
+				printSpaces(10 - String.valueOf(producerId).length());
+				System.out.println(producerId);
 			}
 			System.out.println();
 		} catch (SQLException e) {
@@ -109,14 +114,18 @@ public class DatabaseConnect {
 			System.out.println("ArtistID |         Name         | LabelID");
 			System.out.println("-----------------------------------------");
 			while (resultSet.next()) {
-				printSpaces(8 - String.valueOf(resultSet.getInt(1)).length());
-				System.out.print(resultSet.getInt(1) + " | ");
+				int artistId = resultSet.getInt(1);
+				String name = resultSet.getString(2);
+				int labelId = resultSet.getInt(3);				
 				
-				printSpaces(20 - resultSet.getString(2).length());
-				System.out.print(resultSet.getString(2) + " | ");
+				printSpaces(8 - String.valueOf(artistId).length());
+				System.out.print(artistId + " | ");
 				
-				printSpaces(7 - String.valueOf(resultSet.getInt(3)).length());
-				System.out.println(resultSet.getInt(3));
+				printSpaces(20 - name.length());
+				System.out.print(name + " | ");
+				
+				printSpaces(7 - String.valueOf(labelId).length());
+				System.out.println(labelId);
 			}
 			System.out.println();
 			
@@ -136,11 +145,14 @@ public class DatabaseConnect {
 			System.out.println("ArtistID | SongID");
 			System.out.println("-----------------");
 			while (resultSet.next()) {
-				printSpaces(8- String.valueOf(resultSet.getInt(1)).length());
-				System.out.print(resultSet.getInt(1) + " | ");
+				int artistId = resultSet.getInt(1);
+				int songId = resultSet.getInt(2);
+				
+				printSpaces(8- String.valueOf(artistId).length());
+				System.out.print(artistId + " | ");
 								
-				printSpaces(6 - String.valueOf(resultSet.getInt(2)).length());
-				System.out.println(resultSet.getInt(2));
+				printSpaces(6 - String.valueOf(songId).length());
+				System.out.println(songId);
 			}
 			System.out.println();
 		} catch (SQLException e) {
@@ -159,11 +171,14 @@ public class DatabaseConnect {
 			System.out.println("GenreID |         Name         ");
 			System.out.println("-------------------------------");
 			while (resultSet.next()) {
-				printSpaces(7 - String.valueOf(resultSet.getInt(1)).length());
-				System.out.print(resultSet.getInt(1) + " | ");
+				int genreId = resultSet.getInt(1);
+				String name = resultSet.getString(2);
 				
-				printSpaces(21 - resultSet.getString(2).length());
-				System.out.println(resultSet.getString(2));
+				printSpaces(7 - String.valueOf(genreId).length());
+				System.out.print(genreId + " | ");
+				
+				printSpaces(21 - name.length());
+				System.out.println(name);
 			}
 			System.out.println();
 		} catch (SQLException e) {
@@ -182,11 +197,14 @@ public class DatabaseConnect {
 			System.out.println("ArtistID | AlbumID");
 			System.out.println("------------------");
 			while (resultSet.next()) {
-				printSpaces(8 - String.valueOf(resultSet.getInt(1)).length());
-				System.out.print(resultSet.getInt(1) + " | ");
+				int artistId = resultSet.getInt(1);
+				int albumId = resultSet.getInt(2);
 				
-				printSpaces(7 - String.valueOf(resultSet.getInt(2)).length());
-				System.out.println(resultSet.getInt(2));
+				printSpaces(8 - String.valueOf(artistId).length());
+				System.out.print(artistId + " | ");
+				
+				printSpaces(7 - String.valueOf(albumId).length());
+				System.out.println(albumId);
 			}
 			System.out.println();
 		} catch (SQLException e) {
@@ -205,11 +223,14 @@ public class DatabaseConnect {
 			System.out.println("ProducerID |         Name         ");
 			System.out.println("----------------------------------");
 			while (resultSet.next()) {
-				printSpaces(10 - String.valueOf(resultSet.getInt(1)).length());
-				System.out.print(resultSet.getInt(1) + " | ");
+				int producerId = resultSet.getInt(1);
+				String name = resultSet.getString(2);
 				
-				printSpaces(21 - resultSet.getString(2).length());
-				System.out.println(resultSet.getString(2));
+				printSpaces(10 - String.valueOf(producerId).length());
+				System.out.print(producerId + " | ");
+				
+				printSpaces(21 - name.length());
+				System.out.println(name);
 			}
 			System.out.println();
 		} catch (SQLException e) {
@@ -228,17 +249,22 @@ public class DatabaseConnect {
 			System.out.println("LabelID |         Name         |          Adress          |    PhoneNumber");
 			System.out.println("--------------------------------------------------------------------------");
 			while (resultSet.next()) {
-				printSpaces(7 - String.valueOf(resultSet.getInt(1)).length());
-				System.out.print(resultSet.getInt(1) + " | ");
+				int labelId = resultSet.getInt(1);
+				String name = resultSet.getString(2);
+				String address = resultSet.getString(3);
+				String phoneNumber = resultSet.getString(4);
 				
-				printSpaces(20 - resultSet.getString(2).length());
-				System.out.print(resultSet.getString(2) + " | ");
+				printSpaces(7 - String.valueOf(labelId).length());
+				System.out.print(labelId + " | ");
 				
-				printSpaces(24 - resultSet.getString(3).length());
-				System.out.print(resultSet.getString(3) + " | ");
+				printSpaces(20 - name.length());
+				System.out.print(name + " | ");
 				
-				printSpaces(14 - resultSet.getString(4).length());
-				System.out.println(resultSet.getString(4));
+				printSpaces(24 - address.length());
+				System.out.print(address + " | ");
+				
+				printSpaces(14 - phoneNumber.length());
+				System.out.println(phoneNumber);
 			}
 			System.out.println();
 		} catch (SQLException e) {
@@ -257,23 +283,30 @@ public class DatabaseConnect {
 			System.out.println("SongID |         Name         | TrackLength | AlbumID | GenreID | ProducerID");
 			System.out.println("----------------------------------------------------------------------------");
 			while (resultSet.next()) {
-				printSpaces(6 - String.valueOf(resultSet.getInt(1)).length());
-				System.out.print(resultSet.getInt(1) + " | ");
+				int songId = resultSet.getInt(1);
+				String name = resultSet.getString(2);
+				String time = resultSet.getTime(3).toString();
+				int albumId = resultSet.getInt(4);
+				int genreId = resultSet.getInt(5);
+				int producerId = resultSet.getInt(6);
 				
-				printSpaces(20 - resultSet.getString(2).length());
-				System.out.print(resultSet.getString(2) + " | ");
+				printSpaces(6 - String.valueOf(songId).length());
+				System.out.print(songId + " | ");
 				
-				printSpaces(11 - (resultSet.getTime(3).toString().length()));
-				System.out.print(resultSet.getTime(3) + " | ");
+				printSpaces(20 - name.length());
+				System.out.print(name + " | ");
 				
-				printSpaces(7 - String.valueOf(resultSet.getInt(4)).length());
-				System.out.print(resultSet.getInt(4) + " | ");
+				printSpaces(11 - (time.length()));
+				System.out.print(time + " | ");
 				
-				printSpaces(7 - String.valueOf(resultSet.getInt(5)).length());
-				System.out.print(resultSet.getInt(5) + " | ");
+				printSpaces(7 - String.valueOf(albumId).length());
+				System.out.print(albumId + " | ");
 				
-				printSpaces(10 - String.valueOf(resultSet.getInt(6)).length());
-				System.out.println(resultSet.getInt(6));
+				printSpaces(7 - String.valueOf(genreId).length());
+				System.out.print(genreId + " | ");
+				
+				printSpaces(10 - String.valueOf(producerId).length());
+				System.out.println(producerId);
 			}
 			System.out.println();
 		} catch (SQLException e) {
@@ -292,11 +325,14 @@ public class DatabaseConnect {
 			System.out.println("ProducerID | LabelID");
 			System.out.println("--------------------");
 			while (resultSet.next()) {
-				printSpaces(10 - String.valueOf(resultSet.getInt(1)).length());
-				System.out.print(resultSet.getInt(1) + " | ");
+				int producerId = resultSet.getInt(1);
+				int labelId = resultSet.getInt(2);
 				
-				printSpaces(7 - String.valueOf(resultSet.getInt(2)).length());
-				System.out.println(resultSet.getInt(2));
+				printSpaces(10 - String.valueOf(producerId).length());
+				System.out.print(producerId + " | ");
+				
+				printSpaces(7 - String.valueOf(labelId).length());
+				System.out.println(labelId);
 			}
 			System.out.println();
 		} catch (SQLException e) {

@@ -31,8 +31,18 @@ public class Main {
 				case '1':
 					chooseTablePrint();
 					break;
-			
-			
+				case '2':
+					//search
+					break;
+				case '3':
+					//insert
+					break;
+				case '4':
+					//update
+					break;
+				case '5':
+					//delete
+					break;
 				case 'q':
 					break;
 				default:
@@ -48,8 +58,11 @@ public class Main {
 	
 	public static void printMenu() {
 		System.out.println("Enter menu choice:");
-		System.out.println("\t1: print a table in database");
-		
+		System.out.println("\t1: print a table in the database");
+		System.out.println("\t2: search");
+		System.out.println("\t3: insert data");
+		System.out.println("\t4: update data");
+		System.out.println("\t5: delete data");
 		System.out.println("\tq: quit");
 	}
 	
