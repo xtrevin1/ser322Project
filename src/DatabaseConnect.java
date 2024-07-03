@@ -12,7 +12,7 @@ public class DatabaseConnect {
 	private static Connection connection;
 	private static ResultSet resultSet;
 	private static Statement statement;
-	private static PreparedStatement preparedStatement;
+	private static PreparedStatement pS;
 	
 	
 	public DatabaseConnect(String[] args) {
@@ -69,303 +69,91 @@ public class DatabaseConnect {
         }
 	}
 	
-	public void printAlbumTable() {
-		try {
-			statement = connection.createStatement();
-			
-			resultSet = statement.executeQuery(
-					"SELECT * FROM ALBUM");
-			
-			System.out.println("ALBUM\n");
-			System.out.println("AlbumID |         Name         | LabelID | ProducerID");
-			System.out.println("-----------------------------------------------------");
-			while (resultSet.next()) {
-				int albumId = resultSet.getInt(1);
-				String name = resultSet.getString(2);
-				int labelId = resultSet.getInt(3);
-				int producerId = resultSet.getInt(4);
-				
-				printSpaces(7 - String.valueOf(albumId).length());
-				System.out.print(albumId + " | ");
-				
-				printSpaces(20 - name.length());
-				System.out.print(name + " | ");
-				
-				printSpaces(7 - String.valueOf(labelId).length());
-				System.out.print(labelId + " | ");
-				
-				printSpaces(10 - String.valueOf(producerId).length());
-				System.out.println(producerId);
-			}
-			System.out.println();
-		} catch (SQLException e) {
-	        System.out.println("SQL Error: " + e.getMessage());
-		}
+	private void prettyPrintResultSet(ResultSet rs) throws SQLException {
+	    int spaces = 0;
+	    
+	    //get metadata for given set
+	    ResultSetMetaData rsmd = rs.getMetaData();
+	    int columnCount = rsmd.getColumnCount();
+	    
+	    //print top of table
+	    System.out.print("+");
+	    for (int i = 1; i <= columnCount; i++) {
+	        System.out.print("-".repeat(25));
+	        if (i < columnCount) {
+	            System.out.print("|");
+	        }
+	    }
+	    System.out.println("+");
+	    
+	    //print table header
+	    System.out.print("|");
+	    for (int i = 1; i <= columnCount; i++) {
+	        String columnName = rsmd.getColumnName(i);
+	        //print centered
+	        spaces = printSpaces(12 - ((columnName.length() / 2) < 1 ? 1 : columnName.length() / 2));
+	        System.out.print(columnName);
+	        printSpaces(25 - (spaces + columnName.length()));
+	        System.out.print("|");
+	    }
+	    System.out.println();
+	    
+	  //print header divider
+        System.out.print("|");
+        for (int i = 1; i <= columnCount; i++) {
+            System.out.print("-".repeat(25));
+            if (i < columnCount) {
+                System.out.print("|");
+            }
+        }
+        System.out.println("|");
+	    
+	    //print row data
+	    while (rs.next()) {
+	        System.out.print("|");
+	        for (int i = 1; i <= columnCount; i++) {
+	            String data = rs.getString(i);
+	            //print centered
+	            spaces = printSpaces(12 - ((data.length() / 2) < 1 ? 1 : data.length() / 2));
+	            System.out.print(data);
+	            printSpaces(25 - (spaces + data.length()));
+	            System.out.print("|");
+	        }
+	        System.out.println();
+	    }
+	    
+	    //print bottom of table
+        System.out.print("+");
+        for (int i = 1; i <= columnCount; i++) {
+            System.out.print("-".repeat(25));
+            if (i < columnCount) {
+                System.out.print("|");
+            }
+        }
+        System.out.println("+");
 	}
 	
-	public void printArtistTable() {
-		try {
-			statement = connection.createStatement();
-			
-			resultSet = statement.executeQuery(
-					"SELECT * FROM ARTIST");
-			
-			System.out.println("ARTIST\n");
-			System.out.println("ArtistID |         Name         | LabelID");
-			System.out.println("-----------------------------------------");
-			while (resultSet.next()) {
-				int artistId = resultSet.getInt(1);
-				String name = resultSet.getString(2);
-				int labelId = resultSet.getInt(3);				
-				
-				printSpaces(8 - String.valueOf(artistId).length());
-				System.out.print(artistId + " | ");
-				
-				printSpaces(20 - name.length());
-				System.out.print(name + " | ");
-				
-				printSpaces(7 - String.valueOf(labelId).length());
-				System.out.println(labelId);
-			}
-			System.out.println();
-			
-		} catch (SQLException e) {
-	        System.out.println("SQL Error: " + e.getMessage());
-		} 
+	public void printTable(String table) {
+	    try {
+	        statement = connection.createStatement();
+	        
+	        resultSet = statement.executeQuery("SELECT * FROM " + table);
+	        
+	        System.out.println(table);
+	        prettyPrintResultSet(resultSet);
+	        System.out.println();
+	        
+	    } catch (SQLException e) {
+            System.out.println("SQL Error: " + e.getMessage());
+        }
 	}
 	
-	public void printCreatedTable() {
-		try {
-		    statement = connection.createStatement();
-			
-			resultSet = statement.executeQuery(
-					"SELECT * FROM CREATED");
-			
-			System.out.println("CREATED\n");
-			System.out.println("ArtistID | SongID");
-			System.out.println("-----------------");
-			while (resultSet.next()) {
-				int artistId = resultSet.getInt(1);
-				int songId = resultSet.getInt(2);
-				
-				printSpaces(8- String.valueOf(artistId).length());
-				System.out.print(artistId + " | ");
-								
-				printSpaces(6 - String.valueOf(songId).length());
-				System.out.println(songId);
-			}
-			System.out.println();
-		} catch (SQLException e) {
-	        System.out.println("SQL Error: " + e.getMessage());
-		} 	
-	}
-	
-	public void printGenreTable() {
-		try {
-			statement = connection.createStatement();
-			
-			resultSet = statement.executeQuery(
-					"SELECT * FROM GENRE");
-			
-			System.out.println("GENRE\n");
-			System.out.println("GenreID |         Name         ");
-			System.out.println("-------------------------------");
-			while (resultSet.next()) {
-				int genreId = resultSet.getInt(1);
-				String name = resultSet.getString(2);
-				
-				printSpaces(7 - String.valueOf(genreId).length());
-				System.out.print(genreId + " | ");
-				
-				printSpaces(21 - name.length());
-				System.out.println(name);
-			}
-			System.out.println();
-		} catch (SQLException e) {
-	        System.out.println("SQL Error: " + e.getMessage());
-		} 
-	}
-
-	public void printMadeTable() {
-		try {
-			statement = connection.createStatement();
-			
-			resultSet = statement.executeQuery(
-					"SELECT * FROM MADE");
-			
-			System.out.println("MADE\n");
-			System.out.println("ArtistID | AlbumID");
-			System.out.println("------------------");
-			while (resultSet.next()) {
-				int artistId = resultSet.getInt(1);
-				int albumId = resultSet.getInt(2);
-				
-				printSpaces(8 - String.valueOf(artistId).length());
-				System.out.print(artistId + " | ");
-				
-				printSpaces(7 - String.valueOf(albumId).length());
-				System.out.println(albumId);
-			}
-			System.out.println();
-		} catch (SQLException e) {
-	        System.out.println("SQL Error: " + e.getMessage());
-		}
-	}
-	
-	public void printProducerTable() {
-		try {
-			statement = connection.createStatement();
-			
-			resultSet = statement.executeQuery(
-					"SELECT * FROM PRODUCER");
-			
-			System.out.println("PRODUCER\n");
-			System.out.println("ProducerID |         Name         ");
-			System.out.println("----------------------------------");
-			while (resultSet.next()) {
-				int producerId = resultSet.getInt(1);
-				String name = resultSet.getString(2);
-				
-				printSpaces(10 - String.valueOf(producerId).length());
-				System.out.print(producerId + " | ");
-				
-				printSpaces(21 - name.length());
-				System.out.println(name);
-			}
-			System.out.println();
-		} catch (SQLException e) {
-	        System.out.println("SQL Error: " + e.getMessage());
-		}
-	}
-
-	public void printRecordLabelTable() {
-		try {
-			statement = connection.createStatement();
-			
-			resultSet = statement.executeQuery(
-					"SELECT * FROM RECORD_LABEL");
-			
-			System.out.println("RECORD_LABEL\n");
-			System.out.println("LabelID |         Name         |          Adress          |    PhoneNumber");
-			System.out.println("--------------------------------------------------------------------------");
-			while (resultSet.next()) {
-				int labelId = resultSet.getInt(1);
-				String name = resultSet.getString(2);
-				String address = resultSet.getString(3);
-				String phoneNumber = resultSet.getString(4);
-				
-				printSpaces(7 - String.valueOf(labelId).length());
-				System.out.print(labelId + " | ");
-				
-				printSpaces(20 - name.length());
-				System.out.print(name + " | ");
-				
-				printSpaces(24 - address.length());
-				System.out.print(address + " | ");
-				
-				printSpaces(14 - phoneNumber.length());
-				System.out.println(phoneNumber);
-			}
-			System.out.println();
-		} catch (SQLException e) {
-	        System.out.println("SQL Error: " + e.getMessage());
-		}
-	}
-	
-	public void printSongTable() {
-		try {
-			statement = connection.createStatement();
-			
-			resultSet = statement.executeQuery(
-					"SELECT * FROM SONG");
-			
-			System.out.println("SONG\n");
-			System.out.println("SongID |         Name         | TrackLength | AlbumID | GenreID | ProducerID");
-			System.out.println("----------------------------------------------------------------------------");
-			while (resultSet.next()) {
-				int songId = resultSet.getInt(1);
-				String name = resultSet.getString(2);
-				String time = resultSet.getTime(3).toString();
-				int albumId = resultSet.getInt(4);
-				int genreId = resultSet.getInt(5);
-				int producerId = resultSet.getInt(6);
-				
-				printSpaces(6 - String.valueOf(songId).length());
-				System.out.print(songId + " | ");
-				
-				printSpaces(20 - name.length());
-				System.out.print(name + " | ");
-				
-				printSpaces(11 - (time.length()));
-				System.out.print(time + " | ");
-				
-				printSpaces(7 - String.valueOf(albumId).length());
-				System.out.print(albumId + " | ");
-				
-				printSpaces(7 - String.valueOf(genreId).length());
-				System.out.print(genreId + " | ");
-				
-				printSpaces(10 - String.valueOf(producerId).length());
-				System.out.println(producerId);
-			}
-			System.out.println();
-		} catch (SQLException e) {
-	        System.out.println("SQL Error: " + e.getMessage());
-		}
-	}
-	
-	public void printWorksForTable() {
-		try {
-			statement = connection.createStatement();
-			
-			resultSet = statement.executeQuery(
-					"SELECT * FROM WORKS_FOR");
-			
-			System.out.println("WORKS_FOR\n");
-			System.out.println("ProducerID | LabelID");
-			System.out.println("--------------------");
-			while (resultSet.next()) {
-				int producerId = resultSet.getInt(1);
-				int labelId = resultSet.getInt(2);
-				
-				printSpaces(10 - String.valueOf(producerId).length());
-				System.out.print(producerId + " | ");
-				
-				printSpaces(7 - String.valueOf(labelId).length());
-				System.out.println(labelId);
-			}
-			System.out.println();
-		} catch (SQLException e) {
-	        System.out.println("SQL Error: " + e.getMessage());
-		}
-	}
-	
-	public void printAll() {
-		printAlbumTable();
-		System.out.println("\n");
-		printArtistTable();
-		System.out.println("\n");
-		printCreatedTable();
-		System.out.println("\n");
-		printGenreTable();
-		System.out.println("\n");
-		printMadeTable();
-		System.out.println("\n");
-		printProducerTable();
-		System.out.println("\n");
-		printRecordLabelTable();
-		System.out.println("\n");
-		printSongTable();
-		System.out.println("\n");
-		printWorksForTable();
-	}
-	
-	public void printSpaces(int count) {
+	public int printSpaces(int count) {
 		String spaces = "";
 		for (int i = 0; i < count ; i++) {
 			spaces += " ";
 		}
 		System.out.print(spaces);
+		return spaces.length();
 	}
-
 }

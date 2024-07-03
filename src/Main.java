@@ -1,11 +1,10 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
 	
 	private static DatabaseConnect db;
 	private static Scanner scanner;
-	
-	private static char choice;
 	
 	/**Entry point into application*/
 	public static void main(String[] args) {
@@ -21,6 +20,7 @@ public class Main {
 		db = new DatabaseConnect(args);
 		
 		scanner = new Scanner(System.in);
+		char choice;
 		
 		do {
 			printMenu();
@@ -67,60 +67,46 @@ public class Main {
 	}
 	
 	public static void chooseTablePrint() {
+	    int choice = 0;
+	    
+	    //array of all values of tables
+	    String[] choices = {"ALBUM", "ARTIST", "CREATED", "GENRE", "MADE", "PRODUCER", "RECORD_LABEL",
+	                        "SONG", "WORKS_FOR", "print all", "exit selection"}; 
 		do {
-			System.out.println("Choose a table to print:");
-			System.out.println("\t1: ALBUM");
-			System.out.println("\t2: ARTIST");
-			System.out.println("\t3: CREATED");
-			System.out.println("\t4: GENRE");
-			System.out.println("\t5: MADE");
-			System.out.println("\t6: PRODUCER");
-			System.out.println("\t7: RECORD_LABEL");
-			System.out.println("\t8: SONG");
-			System.out.println("\t9: WORKS_FOR");
-			System.out.println("\ta: print all");
-			System.out.println("\te: exit selection");
-			
-			choice = scanner.next().toLowerCase().charAt(0);
-			System.out.println();
-			
-			switch (choice) {
-				case '1':
-					db.printAlbumTable();
-					break;
-				case '2':
-					db.printArtistTable();
-					break;
-				case '3':
-					db.printCreatedTable();
-					break;
-				case '4':
-					db.printGenreTable();
-					break;
-				case '5':
-					db.printMadeTable();
-					break;
-				case '6':
-					db.printProducerTable();
-					break;
-				case '7':
-					db.printRecordLabelTable();
-					break;
-				case '8':
-					db.printSongTable();
-					break;
-				case '9':
-					db.printWorksForTable();
-					break;
-				case 'a':
-					db.printAll();
-					break;
-				case 'e':
-					break;
-				default:
-					System.out.println("Not a valid choice. Try aqain.");
-					
+		    
+		    //displays choices
+		    System.out.println("Choose a table to print:");
+		    for (int i = 1; i <= choices.length; i++) {
+		        System.out.println("\t" + i + ": " + choices[i-1]);
+		    }
+
+			try {
+    			choice = scanner.nextInt() - 1;
+    			
+    			//print table if one was chosen
+    			if (choice < 9 && choice >= 0) {
+    			    db.printTable(choices[choice]);
+    			    
+    			//print all
+    			} else if (choice == 9){
+    			    for (int i = 0; i < choices.length - 2; i++) {
+    			        db.printTable(choices[i]);
+    			    }
+    			    
+    			//exit
+    			} else if (choice == 10) {
+    			    
+    			//wrong number
+    			} else {
+    			    System.out.println("Not a valid choice. Try aqain.");
+    			}
+    		
+    		//bad input by user
+			} catch (InputMismatchException e) {
+			    System.out.println("Please input a number between 1 and " + choices.length);
+			    scanner.nextLine();
 			}
-		} while (choice != 'e');
+			
+		} while (choice != 10);
 	}
 }
