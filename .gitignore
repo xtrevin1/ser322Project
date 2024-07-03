@@ -59,6 +59,8 @@ build/
 
 # Other files
 bin/
+lib/
+Libs/
 *.war
 *.ear
 *.lock
