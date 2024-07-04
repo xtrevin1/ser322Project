@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class DatabaseConnect {
 	
@@ -13,6 +15,7 @@ public class DatabaseConnect {
 	private static ResultSet resultSet;
 	private static Statement statement;
 	private static PreparedStatement pS;
+	private static Scanner scanner;
 	
 	
 	public DatabaseConnect(String[] args) {
@@ -131,6 +134,71 @@ public class DatabaseConnect {
             }
         }
         System.out.println("+");
+	}
+	
+	public void insert() {
+	    scanner = new Scanner(System.in);
+	    int choice = 0;
+        
+        //array of all values of tables
+        String[] choices = {"ALBUM", "ARTIST", "CREATED", "GENRE", "MADE", "PRODUCER", "RECORD_LABEL",
+                            "SONG", "WORKS_FOR", "exit selection"}; 
+        do {
+            
+            //displays choices
+            System.out.println("Choose a table to insert values into:");
+            for (int i = 1; i <= choices.length; i++) {
+                System.out.println("\t" + i + ": " + choices[i-1]);
+            }
+
+            try {
+                choice = scanner.nextInt();
+                System.out.println("choice: " + choice);
+                scanner.nextLine(); //eats newline character
+                
+                switch (choice) {
+                case 1:
+                    Insert.albumInsert(connection);
+                    break;
+                case 2:
+                    Insert.artistInsert(connection);
+                    break;
+                case 3:
+                    Insert.createdInsert(connection);
+                    break;
+                case 4:
+                    Insert.genreInsert(connection);
+                    break;
+                case 5:
+                    Insert.madeInsert(connection);
+                    break;
+                case 6:
+                    Insert.producerInsert(connection);
+                    break;
+                case 7:
+                    Insert.recordLabelInsert(connection);
+                    break;
+                case 8:
+                    Insert.songInsert(connection);
+                    break;
+                case 9:
+                    Insert.worksForInsert(connection);
+                    break;
+                case 10:
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please Input a number between 1 and " + choices.length);
+                }  
+                
+            } catch (Exception e) {
+                System.out.println("Please input a number between 1 and " + choices.length);
+                if (scanner.hasNextLine()) {
+                    scanner.nextLine();
+                }
+                e.printStackTrace();
+                System.exit(-1);
+            }
+        } while (choice != 10);
 	}
 	
 	public void printTable(String table) {

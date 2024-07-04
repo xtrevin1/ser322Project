@@ -35,7 +35,7 @@ public class Main {
 					//search
 					break;
 				case '3':
-					//insert
+					db.insert();
 					break;
 				case '4':
 					//update
@@ -51,7 +51,6 @@ public class Main {
 			
 		} while (choice != 'q');
 		
-		scanner.close();
 	    db.closeResources();
 		System.out.println("Exiting application...");
 	}
@@ -83,25 +82,18 @@ public class Main {
 			try {
     			choice = scanner.nextInt() - 1;
     			
-    			//print table if one was chosen
+    			//do action based off user choice
     			if (choice < 9 && choice >= 0) {
     			    db.printTable(choices[choice]);
-    			    
-    			//print all
     			} else if (choice == 9){
     			    for (int i = 0; i < choices.length - 2; i++) {
     			        db.printTable(choices[i]);
     			    }
-    			    
-    			//exit
     			} else if (choice == 10) {
     			    
-    			//wrong number
     			} else {
     			    System.out.println("Not a valid choice. Try aqain.");
     			}
-    		
-    		//bad input by user
 			} catch (InputMismatchException e) {
 			    System.out.println("Please input a number between 1 and " + choices.length);
 			    scanner.nextLine();
