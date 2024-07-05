@@ -38,10 +38,10 @@ public class Main {
 					db.insert();
 					break;
 				case '4':
-					//update
+					chooseTableUpdateOrDelete('u');
 					break;
 				case '5':
-					chooseTableDelete();
+					chooseTableUpdateOrDelete('d');
 					break;
 				case 'q':
 					break;
@@ -81,6 +81,7 @@ public class Main {
 
 			try {
     			choice = scanner.nextInt() - 1;
+    			System.out.println();
     			
     			//do action based off user choice
     			if (choice < 9 && choice >= 0) {
@@ -102,7 +103,7 @@ public class Main {
 		} while (choice != 10);
 	}
 	
-	public static void chooseTableDelete() {
+	public static void chooseTableUpdateOrDelete(char selection) {
 		int choice = 0;
 	    
 	    //array of all values of tables
@@ -110,8 +111,15 @@ public class Main {
 	                        "SONG", "WORKS_FOR", "exit selection"}; 
 		do {
 		    
+		    System.out.print("Choose a table to ");
+		    
+		    if (selection == 'd') {
+		    	System.out.println("delete data from:");
+		    } else if (selection == 'u') {
+		    	System.out.println("update data in:");
+		    }
+		    
 		    //displays choices
-		    System.out.println("Choose a table to delete data from:");
 		    for (int i = 1; i <= choices.length; i++) {
 		        System.out.println("\t" + i + ": " + choices[i-1]);
 		    }
@@ -121,8 +129,12 @@ public class Main {
     			System.out.println();
     			//do action based off user choice
     			if (choice < 9 && choice >= 0) {
-    			    db.delete(choices[choice]);
-    			    return;
+    			    if (selection == 'd') {
+    				db.delete(choices[choice]);
+    			    } else if (selection == 'u') {
+    				db.update(choices[choice]);
+    			    }
+    				return;
     			} else if (choice == 9) {
     				return;
     			} else {
