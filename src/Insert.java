@@ -9,7 +9,6 @@ public class Insert {
     static Scanner scanner = new Scanner(System.in);
     
     public static void recordLabelInsert(Connection connection) {
-        scanner = new Scanner(System.in);
         int labelID = 0;
         String name = null;
         String address = null;
@@ -64,7 +63,6 @@ public class Insert {
     }
     
     public static void artistInsert(Connection connection) {
-        scanner = new Scanner(System.in);
         int artistID = 0;
         String name = null;
         int labelID = 0;
@@ -76,6 +74,8 @@ public class Insert {
             
             System.out.print("Enter name (String): ");
             name = scanner.nextLine();
+            
+            System.out.print("Enter labelID (int): ");
             labelID = scanner.nextInt();
             scanner.nextLine(); //eats newline character
         } catch (InputMismatchException e) {
@@ -113,7 +113,6 @@ public class Insert {
     }
     
     public static void producerInsert(Connection connection) {
-        scanner = new Scanner(System.in);
         int producerID = 0;
         String name = null;
         
@@ -158,7 +157,6 @@ public class Insert {
     }
     
     public static void genreInsert(Connection connection) {
-        scanner = new Scanner(System.in);
         int genreID = 0;
         String name = null;
         
@@ -203,7 +201,6 @@ public class Insert {
     }
     
     public static void albumInsert(Connection connection) {
-        scanner = new Scanner(System.in);
         int albumID = 0;
         String name = null;
         int labelID = 0;
@@ -261,7 +258,6 @@ public class Insert {
     }
     
     public static void songInsert(Connection connection) {
-        scanner = new Scanner(System.in);
         int songID = 0;
         String name = null;
         int trackLength = 0;
@@ -331,7 +327,6 @@ public class Insert {
     }
     
     public static void createdInsert(Connection connection) {
-        scanner = new Scanner(System.in);
         int artistID = 0;
         int songID = 0;
         
@@ -377,7 +372,6 @@ public class Insert {
     }
     
     public static void madeInsert(Connection connection) {
-        scanner = new Scanner(System.in);
         int artistID = 0;
         int albumID = 0;
         
@@ -423,7 +417,6 @@ public class Insert {
     }
     
     public static void worksForInsert(Connection connection) {
-        scanner = new Scanner(System.in);
         int producerID = 0;
         int labelID = 0;
         

@@ -75,6 +75,9 @@ public class DatabaseConnect {
 	}
 	
 	private void prettyPrintResultSet(ResultSet rs) throws SQLException {
+	    if (rs == null) {
+	        return;
+	    }
 	    int spaces = 0;
 	    
 	    //get metadata for given set
@@ -138,8 +141,51 @@ public class DatabaseConnect {
         System.out.println("+");
 	}
 	
+	public void search() {
+	    int choice = 0;
+	    
+	    do {
+    	    System.out.println("Choose the number of which entry you'd like to search for (e.g. 1 for song)");
+    	    System.out.println("\t1: Song");
+    	    System.out.println("\t2: Artist");
+    	    System.out.println("\t3: Album");
+    	    System.out.println("\t4: Quit");
+    	    
+    	    try {
+        	    choice = scanner.nextInt();
+        	    scanner.nextLine(); //eats newline character
+        	    
+        	    switch (choice) {
+        	    case 1:
+        	        prettyPrintResultSet(Search.search(connection, "song"));
+        	        break;
+        	    case 2:
+        	        prettyPrintResultSet(Search.search(connection, "artist"));
+        	        break;
+        	    case 3:
+        	        prettyPrintResultSet(Search.search(connection, "album"));
+        	        break;
+        	    case 4:
+        	        break;
+        	    default:
+        	        System.out.println("Invalid choice. Please input a number between 1 and 4" + "\n");
+        	    }
+    	    } catch (SQLException sqle) {
+    	        System.out.println("Unable to print results, please try again.\n");
+    	        if (scanner.hasNextLine()) {
+                    scanner.nextLine();
+                }
+    	    } catch (InputMismatchException ime) {
+                System.out.println("Please input a number between 1 and 4" + "\n");
+                if (scanner.hasNextLine()) {
+                    scanner.nextLine();
+                }
+            }
+    	    
+	    } while (choice != 4);
+	}
+	
 	public void insert() {
-	    scanner = new Scanner(System.in);
 	    int choice = 0;
         
         //array of all values of tables
@@ -155,7 +201,6 @@ public class DatabaseConnect {
 
             try {
                 choice = scanner.nextInt();
-                System.out.println("choice: " + choice);
                 scanner.nextLine(); //eats newline character
                 
                 switch (choice) {
@@ -197,8 +242,6 @@ public class DatabaseConnect {
                 if (scanner.hasNextLine()) {
                     scanner.nextLine();
                 }
-                e.printStackTrace();
-                System.exit(-1);
             }
         } while (choice != 10);
 	}

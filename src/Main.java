@@ -32,7 +32,7 @@ public class Main {
 					chooseTablePrint();
 					break;
 				case '2':
-					//search
+					db.search();
 					break;
 				case '3':
 					db.insert();
