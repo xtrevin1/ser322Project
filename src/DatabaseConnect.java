@@ -9,14 +9,13 @@ public class DatabaseConnect {
 	private String user;
 	private String password;
 	private String driver;
+	private static Scanner scanner = new Scanner(System.in);
 	
 	/**mySQL related variables*/
 	private static Connection connection;
 	private static ResultSet resultSet;
 	private static Statement statement;
 	private static PreparedStatement pS;
-	private static Scanner scanner;
-	
 	
 	public DatabaseConnect(String[] args) {
 		url = args[0];
@@ -65,6 +64,9 @@ public class DatabaseConnect {
             }
             if (connection != null) {
                 connection.close();
+            }
+            if (pS != null) {
+                pS.close();
             }
         } catch (SQLException e) {
             System.out.println("Error closing database resources: " + e.getMessage());
@@ -199,6 +201,101 @@ public class DatabaseConnect {
                 System.exit(-1);
             }
         } while (choice != 10);
+	}
+	
+	public void delete(String table) {
+		System.out.println("Table " + table + " has been selected to have rows deleted from it.\n");
+		ResultSetMetaData rsmd = null;
+		int columnCount = 0;
+		
+		try {
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery("SELECT * FROM " + table);
+			rsmd = resultSet.getMetaData();
+		    columnCount = rsmd.getColumnCount();			
+		} catch (SQLException e) {
+			System.out.println("\n" + e.getMessage() + "\n");
+		}
+		
+		char choice;
+
+		String query = "DELETE FROM " + table + " WHERE ";
+		String conditionStatement = "";
+		
+		
+		do {
+			System.out.print("Column names from " + table + ": ");
+			for (int i = 1; i < columnCount + 1; i++) {
+				try {
+					System.out.print(rsmd.getColumnName(i));
+					if (i < columnCount) {
+						System.out.print(", ");
+					}					
+				} catch (SQLException e) {
+					System.out.print("\n" + e.getMessage() + "\n");					
+				}
+			}
+			System.out.println("\n\n  Current deletion query: DELETE FROM " + table + " WHERE " + conditionStatement + ";\n");
+			deleteMenu();
+			choice = scanner.nextLine().toLowerCase().charAt(0);
+			System.out.println("");
+			
+			switch (choice) {
+				case 'v':
+					printTable(table);
+					break;
+				case 'b':
+					System.out.println("Enter the condition for the WHERE clause (e.g., Name = 'John')\n");
+					System.out.println("Multiple conditions can be used in the query, entered one at a time.\nDo not add the keyword 'AND'. It will be done for you.\n");
+					
+					String newCondition;
+					newCondition = scanner.nextLine().trim();
+					System.out.println();
+					if (conditionStatement.equals("")) {
+						conditionStatement += newCondition;
+					} else {
+						conditionStatement += " AND " + newCondition;
+					}
+					break;
+				case 'x':	
+					try {
+						String finalQuery = query + conditionStatement + ";";
+	                    System.out.println("Executing query: " + finalQuery);
+	                    statement = connection.createStatement();
+	                    statement.execute(finalQuery);
+	                    System.out.println("\nQuery executed successfully.\n");
+					} catch (SQLException e) {
+						System.out.println("\n" + e.getMessage() + "\n");
+					}
+					query = "DELETE FROM " + table + " WHERE ";
+					conditionStatement = "";
+					break;
+				case 's':
+					Main.chooseTableDelete();
+					return;
+				case 'c':
+					query = "DELETE FROM " + table + "WHERE ";
+					conditionStatement = "";
+					System.out.println("Query successfully cleared\n");
+				case 'e':
+					query = "DELETE FROM " + table + "WHERE ";
+					conditionStatement = "";
+					break;
+				default:
+					System.out.println(choice + " is not a valid menu option.");
+			}
+			
+		} while (choice != 'e');
+	}
+
+	public void deleteMenu() {
+		System.out.println("Choose an option:");
+		System.out.println("\tv: view table");
+		System.out.println("\tb: build query");
+		System.out.println("\tx: execute query");
+		System.out.println("\ts: switch tables");
+		System.out.println("\tc: clear query");
+		System.out.println("\te: exit selection");
 	}
 	
 	public void printTable(String table) {

@@ -41,7 +41,7 @@ public class Main {
 					//update
 					break;
 				case '5':
-					//delete
+					chooseTableDelete();
 					break;
 				case 'q':
 					break;
@@ -96,6 +96,40 @@ public class Main {
     			}
 			} catch (InputMismatchException e) {
 			    System.out.println("Please input a number between 1 and " + choices.length);
+			    scanner.nextLine();
+			}
+			
+		} while (choice != 10);
+	}
+	
+	public static void chooseTableDelete() {
+		int choice = 0;
+	    
+	    //array of all values of tables
+	    String[] choices = {"ALBUM", "ARTIST", "CREATED", "GENRE", "MADE", "PRODUCER", "RECORD_LABEL",
+	                        "SONG", "WORKS_FOR", "exit selection"}; 
+		do {
+		    
+		    //displays choices
+		    System.out.println("Choose a table to delete data from:");
+		    for (int i = 1; i <= choices.length; i++) {
+		        System.out.println("\t" + i + ": " + choices[i-1]);
+		    }
+
+			try {
+    			choice = scanner.nextInt() - 1;
+    			System.out.println();
+    			//do action based off user choice
+    			if (choice < 9 && choice >= 0) {
+    			    db.delete(choices[choice]);
+    			    return;
+    			} else if (choice == 9) {
+    				return;
+    			} else {
+    			    System.out.println("Not a valid choice. Try aqain.\n");
+    			}
+			} catch (InputMismatchException e) {
+			    System.out.println("\nPlease input a number between 1 and " + choices.length + ".\n");
 			    scanner.nextLine();
 			}
 			
