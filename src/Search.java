@@ -12,8 +12,8 @@ public class Search {
     public static ResultSet search(Connection connection, String key) {
         String[] choices;
         String[] songChoices = {"TITLE", "ALBUM", "GENRE", "ARTIST", "PRODUCER", "RECORD LABEL", "EXIT"}; 
-        String[] albumChoices = {"TITLE", "ARTIST", "PRODUCER", "RECORD LABEL"};
-        String[] artistChoices = {"NAME", "LABEL", "ALBUM"};
+        String[] albumChoices = {"TITLE", "ARTIST", "PRODUCER", "RECORD LABEL", "EXIT"};
+        String[] artistChoices = {"NAME", "LABEL", "ALBUM", "EXIT"};
         int choice = 0;
         String[] queries;
         String[] songQueries = {"SELECT * FROM SONG WHERE Name = ?;",
